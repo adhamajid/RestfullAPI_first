@@ -1,21 +1,21 @@
-const hapi = require('@hapi/hapi');
-const routes = require('./router');
+const hapi = require("@hapi/hapi");
+const routes = require("./router");
 
 const init = async () => {
   const server = hapi.server({
-    port: 9000,
-    host: 'localhost',
+    port: 8000,
+    host: "localhost",
   });
 
   server.route(routes);
 
   // CORS configuration
-  server.ext('onPreResponse', (request, h) => {
+  server.ext("onPreResponse", (request, h) => {
     const response = request.response;
     if (response.isBoom) {
       return h.continue;
     }
-    response.headers['access-control-allow-origin'] = '*';
+    response.headers["access-control-allow-origin"] = "*";
     return h.continue;
   });
 
@@ -23,7 +23,7 @@ const init = async () => {
   console.log(`Server running at ${server.info.uri}\n`);
 };
 
-init().catch(err => {
+init().catch((err) => {
   console.error(err);
   process.exit(1);
 });
